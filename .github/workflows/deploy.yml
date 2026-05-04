@@ -1,0 +1,101 @@
+name: Build & Deploy (QA)
+
+on:
+  push:
+    branches:
+      - qa
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata (tags & labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix=qa-,format=short
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploy to IONOS Server
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: qa
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Copy docker-compose.yml to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "/opt/projects/dgv"
+
+      - name: Deploy on server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /opt/projects/dgv
+
+            # In GHCR einloggen
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io \
+              -u ${{ github.actor }} --password-stdin
+
+            # .env Datei aus GitHub Secrets schreiben
+            cat > .env <<'EOF'
+            GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
+            GOOGLE_WALLET_ISSUER_ID=${{ secrets.GOOGLE_WALLET_ISSUER_ID }}
+            GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL=${{ secrets.GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL }}
+            GOOGLE_WALLET_PRIVATE_KEY=${{ secrets.GOOGLE_WALLET_PRIVATE_KEY }}
+            EOF
+
+            # Neuestes Image ziehen und Container neu starten
+            docker compose pull
+            docker compose up -d --remove-orphans
+
+            # Alte Images aufräumen
+            docker image prune -f

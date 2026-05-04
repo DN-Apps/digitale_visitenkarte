@@ -1,0 +1,17 @@
+services:
+  dgv:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/dgv:qa
+    container_name: dgv
+    restart: unless-stopped
+    environment:
+      GOOGLE_WALLET_ISSUER_ID: ${GOOGLE_WALLET_ISSUER_ID}
+      GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL: ${GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL}
+      GOOGLE_WALLET_PRIVATE_KEY: ${GOOGLE_WALLET_PRIVATE_KEY}
+    networks:
+      - proxy
+    expose:
+      - "3000"
+
+networks:
+  proxy:
+    external: true
