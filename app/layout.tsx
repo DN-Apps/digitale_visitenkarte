@@ -7,7 +7,11 @@ export const metadata: Metadata = {
   description: "Erstelle deine digitale Visitenkarte – mit vCard-Download, QR-Code und Google Wallet.",
   themeColor: "#2563eb",
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ],
+    shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.svg"
   }
 };
