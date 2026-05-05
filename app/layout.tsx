@@ -5,7 +5,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Digitale Visitenkarte",
   description: "Erstelle deine digitale Visitenkarte – mit vCard-Download, QR-Code und Google Wallet.",
-  themeColor: "#2563eb"
+  themeColor: "#2563eb",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/apple-touch-icon.svg"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
