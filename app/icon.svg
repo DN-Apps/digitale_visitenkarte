@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Visitenkarten-Hintergrund -->
+  <rect width="32" height="32" rx="6" fill="#2563eb"/>
+  <!-- Karten-Silhouette -->
+  <rect x="5" y="9" width="22" height="14" rx="2" fill="white" opacity="0.15"/>
+  <rect x="5" y="9" width="22" height="14" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+  <!-- Avatar-Kreis -->
+  <circle cx="11" cy="14" r="3" fill="white" opacity="0.9"/>
+  <!-- Namens-Linien -->
+  <rect x="16" y="12" width="8" height="1.5" rx="0.75" fill="white" opacity="0.9"/>
+  <rect x="16" y="15" width="5" height="1.5" rx="0.75" fill="white" opacity="0.6"/>
+  <!-- Trennlinie -->
+  <line x1="5" y1="19" x2="27" y2="19" stroke="white" stroke-width="0.75" opacity="0.4"/>
+  <!-- Kontakt-Linien -->
+  <rect x="7" y="21" width="6" height="1" rx="0.5" fill="white" opacity="0.5"/>
+  <rect x="15" y="21" width="9" height="1" rx="0.5" fill="white" opacity="0.5"/>
+</svg>

@@ -4,7 +4,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Digitale Visitenkarte",
-  description: "Static Next.js app for digital business cards"
+  description: "Erstelle deine digitale Visitenkarte – mit vCard-Download, QR-Code und Google Wallet.",
+  themeColor: "#2563eb"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
