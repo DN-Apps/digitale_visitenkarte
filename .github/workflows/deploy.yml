@@ -7,18 +7,28 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  prepare:
+    name: Prepare lowercase image name
+    runs-on: ubuntu-latest
+    outputs:
+      image_name: ${{ steps.lowercase.outputs.image_name }}
+      repo_owner: ${{ steps.lowercase.outputs.repo_owner }}
+    steps:
+      - name: Lowercase image name
+        id: lowercase
+        run: |
+          echo "image_name=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "repo_owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
   build-and-push:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
+    needs: prepare
     permissions:
       contents: read
       packages: write
-
-    outputs:
-      image_tag: ${{ steps.meta.outputs.tags }}
 
     steps:
       - name: Checkout repository
@@ -35,7 +45,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ needs.prepare.outputs.image_name }}
           tags: |
             type=ref,event=branch
             type=sha,prefix=qa-,format=short
@@ -56,7 +66,7 @@ jobs:
   deploy:
     name: Deploy to IONOS Server
     runs-on: ubuntu-latest
-    needs: build-and-push
+    needs: [prepare, build-and-push]
     environment: qa
 
     steps:
@@ -87,7 +97,7 @@ jobs:
 
             # .env Datei aus GitHub Secrets schreiben
             cat > .env <<'EOF'
-            GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
+            GITHUB_REPOSITORY_OWNER=${{ needs.prepare.outputs.repo_owner }}
             GOOGLE_WALLET_ISSUER_ID=${{ secrets.GOOGLE_WALLET_ISSUER_ID }}
             GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL=${{ secrets.GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL }}
             GOOGLE_WALLET_PRIVATE_KEY=${{ secrets.GOOGLE_WALLET_PRIVATE_KEY }}
