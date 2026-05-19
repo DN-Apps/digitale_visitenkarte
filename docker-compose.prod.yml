@@ -1,7 +1,7 @@
 services:
-  dgv:
-    image: ghcr.io/dn-apps/digitale_visitenkarte:qa
-    container_name: dgv
+  dgv-prod:
+    image: ghcr.io/dn-apps/digitale_visitenkarte:latest
+    container_name: dgv-prod
     restart: unless-stopped
     environment:
       GOOGLE_WALLET_ISSUER_ID: ${GOOGLE_WALLET_ISSUER_ID}
