@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u dn-apps --password-stdin
             cd /opt/projects/dgv
 
             cat > .env << 'ENVEOF'
@@ -148,7 +148,7 @@ jobs:
           username: ${{ secrets.PROD_DEPLOY_USER }}
           key: ${{ secrets.PROD_DEPLOY_SSH_KEY }}
           script: |
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u dn-apps --password-stdin
             cd /opt/projects/dgv
 
             cat > .env << 'ENVEOF'
