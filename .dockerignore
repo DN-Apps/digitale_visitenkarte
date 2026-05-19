@@ -1,0 +1,15 @@
+.git
+.github
+.next
+node_modules
+npm-debug.log*
+.env
+.env.local
+.env.*.local
+README.md
+*.md
+.dockerignore
+Dockerfile
+docker-compose.yml
+.eslintrc*
+.prettierrc*

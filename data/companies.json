@@ -1,0 +1,46 @@
+[
+  {
+    "id": "neu-digital-gmbh",
+    "name": "NEU Digital GmbH",
+    "address": {
+      "street": "Musterstrasse",
+      "houseNumber": "12",
+      "postalCode": "10115",
+      "city": "Berlin",
+      "country": "Deutschland"
+    }
+  },
+  {
+    "id": "neu-data-labs",
+    "name": "NEU Data Labs",
+    "address": {
+      "street": "Am Hafen",
+      "houseNumber": "8",
+      "postalCode": "20457",
+      "city": "Hamburg",
+      "country": "Deutschland"
+    }
+  },
+  {
+    "id": "neu-solutions-ag",
+    "name": "NEU Solutions AG",
+    "address": {
+      "street": "Maximilianstrasse",
+      "houseNumber": "47",
+      "postalCode": "80539",
+      "city": "München",
+      "country": "Deutschland"
+    }
+  },
+  {
+    "id": "neu-tech-gmbh",
+    "name": "NEU Tech GmbH",
+    "address": {
+      "street": "Königsallee",
+      "houseNumber": "92",
+      "postalCode": "40212",
+      "city": "Düsseldorf",
+      "country": "Deutschland"
+    }
+  }
+]

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <!-- Hintergrund mit abgerundeten Ecken (Apple Icon Format) -->
+  <rect width="180" height="180" rx="40" fill="#2563eb"/>
+  <!-- Karten-Silhouette -->
+  <rect x="28" y="52" width="124" height="76" rx="10" fill="white" opacity="0.15"/>
+  <rect x="28" y="52" width="124" height="76" rx="10" stroke="white" stroke-width="8" fill="none"/>
+  <!-- Avatar-Kreis -->
+  <circle cx="62" cy="80" r="18" fill="white" opacity="0.9"/>
+  <!-- Namens-Linien -->
+  <rect x="90" y="68" width="46" height="9" rx="4.5" fill="white" opacity="0.9"/>
+  <rect x="90" y="83" width="30" height="9" rx="4.5" fill="white" opacity="0.6"/>
+  <!-- Trennlinie -->
+  <line x1="28" y1="106" x2="152" y2="106" stroke="white" stroke-width="3" opacity="0.4"/>
+  <!-- Kontakt-Linien -->
+  <rect x="38" y="114" width="34" height="6" rx="3" fill="white" opacity="0.5"/>
+  <rect x="84" y="114" width="52" height="6" rx="3" fill="white" opacity="0.5"/>
+</svg>
